@@ -1,29 +1,22 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-  </nav>
-  <router-view/>
+  <div class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-blue-600">
+        Welcome to My DApp!
+      </h1>
+      <p class="mt-4 text-lg text-gray-700">
+        Tailwind CSS is working correctly.
+      </p>
+    </div>
+  </div>
 </template>
 
+<script>
+export default {
+  name: 'App',
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+/* Add component-specific styles here if needed */
 </style>
