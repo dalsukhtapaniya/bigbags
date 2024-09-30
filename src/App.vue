@@ -3,78 +3,105 @@
     <!-- Navbar -->
     <header class="header">
       <img src="./assets/logo.svg" alt="logo" class="w-auto h-[32px] lg:h-[36px]">
-      <span class="header-text hidden lg:block">Eliminate jargon, Trade top pools</span>
+      <span class="header-text hidden lg:block">Eliminate jargon, Trade top 100 memes</span>
       <a href="#" class="btn community-button px-[14px] py-[9px]">
         <img src="./assets/icons/telegram.svg" alt="telegram" class="w-auto h-[24px]">
         <span>Join Community</span>
       </a>
     </header>
 
-    <div class="header-text block lg:hidden flex justify-center mt-[24px]">
-      <span>Eliminate jargon, Trade top pools</span>
+    <div class="header-text block lg:hidden flex justify-center mt-[54px]">
+      <span>Eliminate jargon, Trade top 100 memes</span>
     </div>
 
     <!-- Filter Section -->
     <div class="flex flex-col sm:flex-row justify-center my-6 space-y-4 sm:space-y-0 sm:space-x-4">
-      <div class="filter px-[14px] py-[8px] rounded-full">
-        <img src="./assets/icons/network.svg" alt="Network Icon" class="w-auto h-[16px] opacity-50">
-        <span class="opacity-50"> Network:</span>
+      <a href="#" class="filter px-[14px] py-[8px] rounded-full"
+        :class="currentCategory === 'solana-meme-coins' ? 'filterActive' : 'filterInactive'"
+        @click="fetchTokens('solana-meme-coins')">
         <img src="./assets/icons/solana.png" alt="Network Icon" class="w-auto h-[20px]">
-        <span> Solana</span>
-      </div>
-      <div class="filter px-[14px] py-[8px] rounded-full">
-        <img src="./assets/icons/clock.svg" alt="Network Icon" class="w-auto h-[16px] opacity-50">
-        <span class="opacity-50"> Last:</span>
-        <span> 7 Days</span>
-      </div>
-      <div class="filter px-[14px] py-[8px] rounded-full">
-        <img src="./assets/icons/growth.svg" alt="Network Icon" class="w-auto h-[16px] opacity-50">
-        <span class="opacity-50"> Growth:</span>
-        <span class="text-green-500">20% +</span>
-      </div>
+        <span>Solana</span>
+      </a>
+      <a href="#" class="filter px-[14px] py-[8px] rounded-full"
+        :class="currentCategory === 'pump-fun' ? 'filterActive' : 'filterInactive'"
+        @click="fetchTokens('pump-fun')">
+        <img src="./assets/icons/pump.png" alt="Network Icon" class="w-auto h-[20px]">
+        <span>Pump Fun</span>
+      </a>
+      <a href="#" class="filter px-[14px] py-[8px] rounded-full"
+        :class="currentCategory === 'base-meme-coins' ? 'filterActive' : 'filterInactive'"
+        @click="fetchTokens('base-meme-coins')">
+        <img src="./assets/icons/base.png" alt="Network Icon" class="w-auto h-[20px]">
+        <span>Base</span>
+      </a>
+      <!-- <a href="#" class="filter px-[14px] py-[8px] rounded-full"
+        :class="currentCategory === 'binance-smart-chain' ? 'filterActive' : 'filterInactive'"
+        @click="fetchTokens('binance-smart-chain')">
+        <img src="./assets/icons/solana.png" alt="Network Icon" class="w-auto h-[20px]">
+        <span>BNB</span>
+      </a>
+      <a href="#" class="filter px-[14px] py-[8px] rounded-full"
+        :class="currentCategory === 'meme-token' ? 'filterActive' : 'filterInactive'"
+        @click="fetchTokens('meme-token')">
+        <img src="./assets/icons/solana.png" alt="Network Icon" class="w-auto h-[20px]">
+        <span>Meme</span>
+      </a> -->
     </div>
 
     <!-- Pool Table -->
-    <div v-if="loading">Loading tokens...</div>
-    <div v-else class="overflow-x-auto">
-      <table class="min-w-full text-center text-white"
+    <div class="overflow-x-auto">
+      <div v-if="loading" class="flex justify-center items-center">
+        <img src="./assets/icons/loadingSpinner.svg" alt="loading"
+          class="w-auto h-[128px] mt-[100px]">
+      </div>
+      <table v-else class="min-w-full text-center text-white"
         style="border-spacing: 0 10px;">
         <thead>
           <tr class="table-head">
-            <th class="py-3 px-5">TOKEN</th>
+            <th class="py-3 px-5 text-left">TOKEN</th>
             <th class="py-3 px-5">PRICE</th>
-            <th class="py-3 px-5">AGE</th>
-            <th class="py-3 px-5">TXS</th>
-            <th class="py-3 px-5">LIQUIDITY</th>
-            <th class="py-3 px-5">VOL</th>
             <th class="py-3 px-5">24H</th>
             <th class="py-3 px-5">7D</th>
+            <th class="py-3 px-5">MCAP 24H</th>
+            <th class="py-3 px-5">TOTAL MCAP</th>
+            <th class="py-3 px-5">TOTAL VOL</th>
+            <th class="py-3 px-5">ATH</th>
             <th class="py-3 px-5"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="token in tokens" :key="token.id">
-            <td class="py-[12px] px-[12px] flex items-center min-w-[160px]">
-              <img :src="token.image" alt="Token Icon" class="w-[44px] h-[44px] mr-2 rounded-full">
-              <div class="flex flex-col items-start">
-                <span class="text-white">{{ token.name }}</span>
-                <span class="text-white text-sm opacity-50">Token</span>
-              </div>
-            </td>
-            <td class="py-3 px-5">${{ token.current_price }}</td>
-            <td class="py-3 px-5">7d</td>
-            <td class="py-3 px-5">6969</td>
-            <td class="py-3 px-5">{{ token.market_cap }}</td>
-            <td class="py-3 px-5">{{ token.total_volume }}</td>
-            <td class="py-3 px-5 text-green-500">
-              {{ token.price_change_percentage_24h_in_currency }}</td>
-            <td class="py-3 px-5 text-green-500">
-              {{ token.price_change_percentage_7d_in_currency }}</td>
-            <td class="py-[12px] px-[12px]">
-              <a href="#" class="btn button-trade px-[14px] py-[9px] w-max lg:w-auto">
-                <span>Trade Now</span>
-              </a>
-            </td>
+          <td class="py-[12px] px-[12px] flex items-center min-w-[160px]">
+            <img :src="token.image" alt="Token Icon" class="w-[44px] h-[44px] mr-2 rounded-full">
+            <div class="flex flex-col items-start text-left">
+              <span class="text-white" style="text-transform: uppercase;">{{ token.symbol }}</span>
+              <span class="text-white text-sm opacity-50">{{token.name}}
+              </span>
+            </div>
+          </td>
+          <td class="py-3 px-5">${{ token.current_price }}</td>
+          <td class="py-3 px-5" :class="token.price_change_percentage_24h_in_currency > 0 ?
+            'text-green-500' : 'text-red-500'">
+            {{ token.price_change_percentage_24h_in_currency ?
+            token.price_change_percentage_24h_in_currency.toFixed(2) + '%' : 'N/A' }}
+          </td>
+          <td class="py-3 px-5" :class="token.price_change_percentage_7d_in_currency > 0 ?
+            'text-green-500' : 'text-red-500'">
+            {{ token.price_change_percentage_7d_in_currency ?
+            token.price_change_percentage_7d_in_currency.toFixed(2) + '%' : 'N/A' }}
+          </td>
+          <td class="py-3 px-5">{{ shortData(token.market_cap_change_24h) }}</td>
+          <td class="py-3 px-5">{{ shortData(token.market_cap) }}</td>
+          <td class="py-3 px-5">{{ shortData(token.total_volume) }}</td>
+          <td class="py-3 px-5">${{ token.ath }}</td>
+          <td class="py-[12px] px-[12px]">
+            <a href="#" class="btn button-trade px-[14px] py-[9px]"
+              @click="fetchTokenAddress(token.id, currentCategory)">
+              <span v-if="!loadingStates[token.id]">Trade Now</span>
+              <img v-else src="./assets/icons/loadingSpinner.svg" alt="loading"
+                class="w-auto h-[24px]">
+            </a>
+          </td>
           </tr>
         </tbody>
       </table>
@@ -84,39 +111,105 @@
 
 <script>
 import axios from 'axios';
+// import shortNum from 'number-shortener';
+import shortNum from 'number-abbreviate';
 // import coingeckoService from '@/services/api';
-
 export default {
   data() {
     return {
       tokens: [],
-      loading: true,
+      loading: false,
+      loadingStates: {},
+      currentCategory: 'solana-meme-coins',
     };
   },
   created() {
-    this.fetchTokens();
+    this.fetchTokens('solana-meme-coins');
+    // this.fetchCategories();
+    // this.fetchPoolAddress();
   },
   methods: {
-    async fetchTokens() {
+    async fetchTokens(list) {
+      this.loading = true;
+      this.currentCategory = list;
+      const API_BASE_URL = 'https://api.coingecko.com/api/v3/';
+      const API_KEY = process.env.COINGECKO_API_KEY;
+      try {
+        const response = await axios.get(`${API_BASE_URL}/coins/markets?vs_currency=usd&category=${list}&order=volume_desc&price_change_percentage=24h%2C7d`, {
+          // params: {
+        //   category: 'layer-1',
+        //   // order: 'volume_desc',
+        //   // per_page: 100,
+        //   // page: 1,
+        //   // price_change_percentage: '7d,24h',
+        // },
+          headers: {
+            accept: 'application/json',
+            'x-cg-pro-api-key': API_KEY,
+          },
+        });
+
+        // this.tokens = response.data;
+        this.tokens = response.data.sort((a, b) => {
+          const aValue = a.price_change_percentage_7d_in_currency ?? -Infinity;
+          const bValue = b.price_change_percentage_7d_in_currency ?? -Infinity;
+          return bValue - aValue;
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    shortData(data) {
+      return shortNum(data, 2);
+    },
+
+    async fetchCategories() {
       const API_BASE_URL = 'https://api.coingecko.com/api/v3';
       const API_KEY = process.env.COINGECKO_API_KEY;
 
-      const response = await axios.get(`${API_BASE_URL}/coins/markets`, {
-        params: {
-          vs_currency: 'usd',
-          category: 'meme-token',
-          order: 'market_cap_desc',
-          per_page: 250,
-          page: 1,
-          price_change_percentage: '7d,24h',
-        },
+      const response = await axios.get(`${API_BASE_URL}/coins/categories`, {
         headers: {
           'x-cg-pro-api-key': API_KEY,
         },
       });
-      this.tokens = response.data;
-      this.loading = false;
-      console.log(this.tokens[1].name);
+      console.log(response.data);
+      response.data.forEach((category) => {
+        if (category.id === 'solana-meme-coins') {
+          console.log(true);
+        }
+      });
+    },
+
+    async fetchTokenAddress(id, category) {
+      this.loadingStates[id] = true;
+      const API_BASE_URL = 'https://api.coingecko.com/api/v3';
+      const API_KEY = process.env.COINGECKO_API_KEY;
+
+      try {
+        const response = await axios.get(`${API_BASE_URL}/coins/${id}`, {
+          headers: {
+            'x-cg-pro-api-key': API_KEY,
+          },
+        });
+
+        const tokenAddress = response.data.contract_address;
+        let URL = '';
+        if (category === 'solana-meme-coins') {
+          URL = `https://jup.ag/swap/SOL-${tokenAddress}?referrer=9AtCDBSqsET7ST3nDQc9Li7gLF49dnRrH7E6jwKSWozc&feeBps=50`;
+        } else if (category === 'pump-fun') {
+          URL = `https://jup.ag/swap/SOL-${tokenAddress}?referrer=9AtCDBSqsET7ST3nDQc9Li7gLF49dnRrH7E6jwKSWozc&feeBps=50`;
+        } else if (category === 'base-meme-coins') {
+          URL = `https://app.uniswap.org/swap?outputCurrency=${tokenAddress}&chain=base`;
+        }
+        window.open(URL, '_blank').focus();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingStates[id] = false;
+      }
     },
   },
 };
@@ -169,13 +262,22 @@ export default {
   color: #FFFFFF;
   border-radius: 9999px;
   text-align: center;
-  border: 1px solid #FFFFFF20;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 4px;
   font-size: 16px;
   font-weight: 400;
+}
+
+.filterActive {
+  color: #FFFFFF;
+  border: 1px solid #2AB229;
+}
+
+.filterInactive {
+  color: #FFFFFF80;
+  border: 1px solid #FFFFFF20;
 }
 
 table {
@@ -210,6 +312,7 @@ td:last-child
 
 .button-trade {
   color: #FFFFFF;
+  white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
   display: flex;
