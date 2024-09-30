@@ -61,11 +61,30 @@
           <tr class="table-head">
             <th class="py-3 px-5 text-left">TOKEN</th>
             <th class="py-3 px-5">PRICE</th>
-            <th class="py-3 px-5">24H</th>
-            <th class="py-3 px-5">7D</th>
-            <th class="py-3 px-5">MCAP 24H</th>
-            <th class="py-3 px-5">TOTAL MCAP</th>
-            <th class="py-3 px-5">TOTAL VOL</th>
+            <th class="py-3 px-5">
+              <a href="#" @click="sortBy24h">
+                24H
+              </a>
+            </th>
+            <th class="py-3 px-5" @click="sortBy7d">
+              <a href="#" @click="sortBy7d">
+                7D
+              </a>
+            </th>
+            <th class="py-3 px-5" @click="sortByMcap24h">
+              <a href="#" @click="sortByMcap24h">
+                MCAP 24H
+              </a>
+            </th>
+            <th class="py-3 px-5" @click="sortByTotalMcap">
+              <a href="#" @click="sortByTotalMcap">
+                TOTAL MCAP</a>
+            </th>
+            <th class="py-3 px-5" @click="sortByTotalVolume">
+              <a href="#" @click="sortByTotalVolume">
+                TOTAL VOL
+              </a>
+            </th>
             <th class="py-3 px-5">ATH</th>
             <th class="py-3 px-5"></th>
           </tr>
@@ -232,6 +251,46 @@ export default {
       } finally {
         this.loadingStates[id] = false;
       }
+    },
+
+    sortBy24h() {
+      this.tokens.sort((a, b) => {
+        const aValue = a.price_change_percentage_24h_in_currency ?? -Infinity;
+        const bValue = b.price_change_percentage_24h_in_currency ?? -Infinity;
+        return bValue - aValue;
+      });
+    },
+
+    sortBy7d() {
+      this.tokens.sort((a, b) => {
+        const aValue = a.price_change_percentage_7d_in_currency ?? -Infinity;
+        const bValue = b.price_change_percentage_7d_in_currency ?? -Infinity;
+        return bValue - aValue;
+      });
+    },
+
+    sortByMcap24h() {
+      this.tokens.sort((a, b) => {
+        const aValue = a.market_cap_change_24h ?? -Infinity;
+        const bValue = b.market_cap_change_24h ?? -Infinity;
+        return bValue - aValue;
+      });
+    },
+
+    sortByTotalMcap() {
+      this.tokens.sort((a, b) => {
+        const aValue = a.market_cap ?? -Infinity;
+        const bValue = b.market_cap ?? -Infinity;
+        return bValue - aValue;
+      });
+    },
+
+    sortByTotalVolume() {
+      this.tokens.sort((a, b) => {
+        const aValue = a.total_volume ?? -Infinity;
+        const bValue = b.total_volume ?? -Infinity;
+        return bValue - aValue;
+      });
     },
   },
 };
