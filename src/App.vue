@@ -1,5 +1,6 @@
 <template>
-  <div id="app" class="bg-custom-bg min-h-screen px-[16px] lg:px-[100px] lg:pt-[44px] pt-[16px]">
+  <div id="app" class="bg-custom-bg min-h-screen
+    px-[16px] lg:px-[100px] lg:pt-[44px] pt-[16px] lg:pb-[44px]">
     <!-- Navbar -->
     <header class="header">
       <img src="./assets/logo.svg" alt="logo" class="w-auto h-[32px] lg:h-[36px]">
@@ -52,7 +53,7 @@
     <div class="overflow-x-auto">
       <div v-if="loading" class="flex justify-center items-center">
         <img src="./assets/icons/loadingSpinner.svg" alt="loading"
-          class="w-auto h-[128px] mt-[100px]">
+          class="w-auto h-[44px] mt-[100px]">
       </div>
       <table v-else class="min-w-full text-center text-white"
         style="border-spacing: 0 10px;">
@@ -71,7 +72,8 @@
         </thead>
         <tbody>
           <tr v-for="token in tokens" :key="token.id">
-          <td class="py-[12px] px-[12px] flex items-center min-w-[160px]">
+          <td class="py-[12px] px-[12px] flex items-center min-w-[160px]"
+            style="position: sticky; left: 0;">
             <img :src="token.image" alt="Token Icon" class="w-[44px] h-[44px] mr-2 rounded-full">
             <div class="flex flex-col items-start text-left">
               <span class="text-white" style="text-transform: uppercase;">{{ token.symbol }}</span>
@@ -107,6 +109,26 @@
       </table>
     </div>
   </div>
+  <footer
+      class="footer w-full bottom-0 left-0
+            sm:relative lg:fixed
+            lg:h-[44px] sm:h-auto md:h-[44px]
+            flex flex-col sm:flex-row items-center justify-between
+            px-[16px] lg:px-[100px] md:px-[16px]
+            py-[16px] lg:py-0 md:py-[16px]">
+      <span class="opacity-50">© BigBags 2024</span>
+      <div class="flex items-center gap-[12px]">
+        <span class="opacity-50">Follow us</span>
+        <a href="https://t.me/bigbagsapp" target="_blank" class="flex items-center gap-[8px]">
+          <img src="./assets/icons/telegram.svg" alt="Telegram" class="w-auto h-[20px]" />
+          <span>Telegram</span>
+        </a>
+        <a href="https://x.com/bigbagsapp" target="_blank" class="flex items-center gap-[8px]">
+          <img src="./assets/icons/x.svg" alt="Xtwitter" class="w-auto h-[20px]" />
+          <span>X/Twitter</span>
+        </a>
+    </div>
+  </footer>
 </template>
 
 <script>
@@ -235,6 +257,7 @@ export default {
 }
 
 .header-text {
+  text-align: center;
   font-size: 20px;
   font-weight: 500;
   background: radial-gradient(50% 50% at 50% 50%, #F6FFF7 0%, #CEFFD5 100%);
@@ -324,5 +347,12 @@ td:last-child
 
 .button-trade:hover {
   background-color: #2AB229;
+}
+
+.footer {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #0F1F22;
 }
 </style>
