@@ -5,7 +5,7 @@
     <header class="header">
       <img src="./assets/logo.svg" alt="logo" class="w-auto h-[32px] lg:h-[36px]">
       <span class="header-text hidden lg:block">Eliminate jargon, Trade top 100 memes</span>
-      <a href="#" class="btn community-button px-[14px] py-[9px]">
+      <a href="https://t.me/bigbagsapp" target="_blank" class="btn community-button px-[14px] py-[9px]">
         <img src="./assets/icons/telegram.svg" alt="telegram" class="w-auto h-[24px]">
         <span>Join Community</span>
       </a>
