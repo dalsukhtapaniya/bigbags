@@ -58,35 +58,35 @@
       <table v-else class="min-w-full text-center text-white"
         style="border-spacing: 0 10px;">
         <thead>
-          <tr class="table-head">
-            <th class="py-3 px-5 text-left">TOKEN</th>
-            <th class="py-3 px-5">PRICE</th>
-            <th class="py-3 px-5">
+          <tr>
+            <th class="table-head nohover text-left">TOKEN</th>
+            <th class="table-head nohover">PRICE</th>
+            <th class="table-head" :class="currentSort === '24h' ? 'table-headActive' : ''">
               <a href="#" @click="sortBy24h">
                 24H
               </a>
             </th>
-            <th class="py-3 px-5" @click="sortBy7d">
+            <th class="table-head" :class="currentSort === '7d' ? 'table-headActive' : ''">
               <a href="#" @click="sortBy7d">
                 7D
               </a>
             </th>
-            <th class="py-3 px-5" @click="sortByMcap24h">
+            <th class="table-head" :class="currentSort === 'mcap24h' ? 'table-headActive' : ''">
               <a href="#" @click="sortByMcap24h">
                 MCAP 24H
               </a>
             </th>
-            <th class="py-3 px-5" @click="sortByTotalMcap">
+            <th class="table-head" :class="currentSort === 'totalmcap' ? 'table-headActive' : ''">
               <a href="#" @click="sortByTotalMcap">
                 TOTAL MCAP</a>
             </th>
-            <th class="py-3 px-5" @click="sortByTotalVolume">
+            <th class="table-head" :class="currentSort === 'totalvolume' ? 'table-headActive' : ''">
               <a href="#" @click="sortByTotalVolume">
                 TOTAL VOL
               </a>
             </th>
-            <th class="py-3 px-5">ATH</th>
-            <th class="py-3 px-5"></th>
+            <th class="table-head nohover">ATH</th>
+            <th class="table-head nohover"></th>
           </tr>
         </thead>
         <tbody>
@@ -162,18 +162,17 @@ export default {
       loading: false,
       loadingStates: {},
       currentCategory: 'solana-meme-coins',
+      currentSort: '',
     };
   },
   created() {
     this.fetchTokens('solana-meme-coins');
-    // this.fetchCategories();
-    // this.fetchPoolAddress();
   },
   methods: {
     async fetchTokens(list) {
       this.loading = true;
       this.currentCategory = list;
-      const API_BASE_URL = 'https://api.coingecko.com/api/v3/';
+      const API_BASE_URL = 'https://api.coingecko.com/api/v3';
       const API_KEY = process.env.COINGECKO_API_KEY;
       try {
         const response = await axios.get(`${API_BASE_URL}/coins/markets?vs_currency=usd&category=${list}&order=volume_desc&price_change_percentage=24h%2C7d`, {
@@ -255,6 +254,7 @@ export default {
 
     sortBy24h() {
       this.tokens.sort((a, b) => {
+        this.currentSort = '24h';
         const aValue = a.price_change_percentage_24h_in_currency ?? -Infinity;
         const bValue = b.price_change_percentage_24h_in_currency ?? -Infinity;
         return bValue - aValue;
@@ -263,6 +263,7 @@ export default {
 
     sortBy7d() {
       this.tokens.sort((a, b) => {
+        this.currentSort = '7d';
         const aValue = a.price_change_percentage_7d_in_currency ?? -Infinity;
         const bValue = b.price_change_percentage_7d_in_currency ?? -Infinity;
         return bValue - aValue;
@@ -271,6 +272,7 @@ export default {
 
     sortByMcap24h() {
       this.tokens.sort((a, b) => {
+        this.currentSort = 'mcap24h';
         const aValue = a.market_cap_change_24h ?? -Infinity;
         const bValue = b.market_cap_change_24h ?? -Infinity;
         return bValue - aValue;
@@ -279,6 +281,7 @@ export default {
 
     sortByTotalMcap() {
       this.tokens.sort((a, b) => {
+        this.currentSort = 'totalmcap';
         const aValue = a.market_cap ?? -Infinity;
         const bValue = b.market_cap ?? -Infinity;
         return bValue - aValue;
@@ -287,6 +290,7 @@ export default {
 
     sortByTotalVolume() {
       this.tokens.sort((a, b) => {
+        this.currentSort = 'totalvolume';
         const aValue = a.total_volume ?? -Infinity;
         const bValue = b.total_volume ?? -Infinity;
         return bValue - aValue;
@@ -384,8 +388,17 @@ td:last-child
 
 .table-head {
   color: #F6FFF760;
+  padding: 12px 12px;
   font-size: 16px;
   font-weight: 500;
+}
+
+.table-headActive {
+  color: #FFFFFF;
+}
+
+.table-head:not(.nohover) :hover {
+  color: #FFFFFF;
 }
 
 .rawborder {
