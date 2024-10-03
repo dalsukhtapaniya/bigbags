@@ -115,7 +115,25 @@
             {{ token.price_change_percentage_7d_in_currency ?
             token.price_change_percentage_7d_in_currency.toFixed(2) + '%' : 'N/A' }}
           </td>
-          <td class="py-3 px-5">{{ shortData(token.market_cap_change_24h) }}</td>
+          <td
+            class="py-3 px-5"
+          >
+            <span class="flex items-center" style="align-items: center; justify-content: center;">
+              {{ formatMarketCapChange(token.market_cap_change_24h) }}
+              <img
+                v-if="token.market_cap_change_24h >= 0"
+                src="./assets/icons/up-arrow.svg"
+                alt=""
+                class="w-[12px] h-[12px] ml-1"
+              />
+              <img
+                v-else
+                src="./assets/icons/down-arrow.svg"
+                alt=""
+                class="w-[12px] h-[12px] ml-1"
+              />
+            </span>
+          </td>
           <td class="py-3 px-5">{{ shortData(token.market_cap) }}</td>
           <td class="py-3 px-5">{{ shortData(token.total_volume) }}</td>
           <td class="py-3 px-5">${{ token.ath }}</td>
@@ -299,6 +317,12 @@ export default {
         const bValue = b.total_volume ?? -Infinity;
         return bValue - aValue;
       });
+    },
+
+    formatMarketCapChange(value) {
+      const sign = value >= 0 ? '+' : '-';
+      const formattedValue = this.shortData(Math.abs(value));
+      return `${sign}${formattedValue}`;
     },
   },
 };
