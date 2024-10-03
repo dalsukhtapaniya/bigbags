@@ -15,8 +15,12 @@
       <span>Eliminate jargon, Trade top 100 memes</span>
     </div>
 
+    <div class="mx-auto w-full lg:w-[786px] pt-[24px]">
+      <img src="./assets/banner.png" alt="banner" class="w-full h-auto">
+    </div>
+
     <!-- Filter Section -->
-    <div class="flex flex-col sm:flex-row justify-center my-6 space-y-4 sm:space-y-0 sm:space-x-4">
+    <div class="flex flex-col sm:flex-row justify-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
       <a href="#" class="filter px-[14px] py-[8px] rounded-full"
         :class="currentCategory === 'solana-meme-coins' ? 'filterActive' : 'filterInactive'"
         @click="fetchTokens('solana-meme-coins')">
@@ -215,7 +219,7 @@ export default {
           'x-cg-pro-api-key': API_KEY,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       response.data.forEach((category) => {
         if (category.id === 'solana-meme-coins') {
           console.log(true);
