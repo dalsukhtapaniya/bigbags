@@ -1,9 +1,0 @@
-{
-    "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-    "functions": {
-        "api/postSocial.js": {
-        "memory": 3008,
-        "maxDuration": 60
-        }
-    }
-}
