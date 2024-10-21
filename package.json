@@ -5,13 +5,24 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start:poster": "node src/scripts/scheduler.mjs"
   },
   "dependencies": {
+    "@jimp/plugin-print": "^1.6.0",
     "axios": "^1.7.7",
+    "chrome-aws-lambda": "^10.1.0",
     "core-js": "^3.8.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jimp": "^1.6.0",
+    "node-cron": "^3.0.3",
+    "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.66.0",
     "number-abbreviate": "^2.0.0",
     "number-shortener": "^1.0.1",
+    "puppeteer": "^23.6.0",
+    "twitter-api-v2": "^1.18.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

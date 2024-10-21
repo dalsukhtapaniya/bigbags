@@ -173,100 +173,37 @@
 </template>
 
 <script>
-import axios from 'axios';
-// import shortNum from 'number-shortener';
+import { mapState, mapActions } from 'vuex';
 import shortNum from 'number-abbreviate';
 // import coingeckoService from '@/services/api';
 export default {
   data() {
     return {
-      tokens: [],
-      loading: false,
       loadingStates: {},
-      currentCategory: 'solana-meme-coins',
       currentSort: '',
     };
+  },
+  computed: {
+    ...mapState(['tokens', 'loading', 'currentCategory']),
   },
   created() {
     this.fetchTokens('solana-meme-coins');
   },
   methods: {
-    async fetchTokens(list) {
-      this.loading = true;
-      this.currentCategory = list;
-      const API_BASE_URL = 'https://api.coingecko.com/api/v3';
-      const API_KEY = process.env.COINGECKO_API_KEY;
-      try {
-        const response = await axios.get(`${API_BASE_URL}/coins/markets?vs_currency=usd&category=${list}&order=volume_desc&price_change_percentage=24h%2C7d`, {
-          // params: {
-        //   category: 'layer-1',
-        //   // order: 'volume_desc',
-        //   // per_page: 100,
-        //   // page: 1,
-        //   // price_change_percentage: '7d,24h',
-        // },
-          headers: {
-            accept: 'application/json',
-            'x-cg-pro-api-key': API_KEY,
-          },
-        });
+    ...mapActions(['fetchTokens']),
 
-        // this.tokens = response.data;
-        this.tokens = response.data.sort((a, b) => {
-          const aValue = a.price_change_percentage_7d_in_currency ?? -Infinity;
-          const bValue = b.price_change_percentage_7d_in_currency ?? -Infinity;
-          return bValue - aValue;
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.loading = false;
-      }
+    async fetchTokens(list) {
+      this.$store.dispatch('fetchTokens', list);
     },
 
     shortData(data) {
       return shortNum(data, 2);
     },
 
-    async fetchCategories() {
-      const API_BASE_URL = 'https://api.coingecko.com/api/v3';
-      const API_KEY = process.env.COINGECKO_API_KEY;
-
-      const response = await axios.get(`${API_BASE_URL}/coins/categories`, {
-        headers: {
-          'x-cg-pro-api-key': API_KEY,
-        },
-      });
-      // console.log(response.data);
-      response.data.forEach((category) => {
-        if (category.id === 'solana-meme-coins') {
-          console.log(true);
-        }
-      });
-    },
-
     async fetchTokenAddress(id, category) {
       this.loadingStates[id] = true;
-      const API_BASE_URL = 'https://api.coingecko.com/api/v3';
-      const API_KEY = process.env.COINGECKO_API_KEY;
-
       try {
-        const response = await axios.get(`${API_BASE_URL}/coins/${id}`, {
-          headers: {
-            'x-cg-pro-api-key': API_KEY,
-          },
-        });
-
-        const tokenAddress = response.data.contract_address;
-        let URL = '';
-        if (category === 'solana-meme-coins') {
-          URL = `https://jup.ag/swap/SOL-${tokenAddress}?referrer=9AtCDBSqsET7ST3nDQc9Li7gLF49dnRrH7E6jwKSWozc&feeBps=50`;
-        } else if (category === 'pump-fun') {
-          URL = `https://jup.ag/swap/SOL-${tokenAddress}?referrer=9AtCDBSqsET7ST3nDQc9Li7gLF49dnRrH7E6jwKSWozc&feeBps=50`;
-        } else if (category === 'base-meme-coins') {
-          URL = `https://app.uniswap.org/swap?outputCurrency=${tokenAddress}&chain=base`;
-        }
-        window.open(URL, '_blank').focus();
+        await this.$store.dispatch('fetchTokenAddress', { id, category });
       } catch (error) {
         console.error(error);
       } finally {
