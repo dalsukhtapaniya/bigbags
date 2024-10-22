@@ -18,6 +18,11 @@ export async function fetchTokens(category) {
         'x-cg-pro-api-key': API_KEY,
       },
     });
+
+    await axios.post('https://bigbags-api.vercel.app/api/storeData', {
+      category: category,
+      data: response.data
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching tokens:', error);
