@@ -22,10 +22,17 @@ export async function fetchTokens(category) {
     });
 
     try {
-      await axios.post(STORAGE_API_URL, {
-        category,
-        data: response.data
-      });
+      await axios.post(STORAGE_API_URL, 
+        {
+          category,
+          data: response.data
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
       console.log('Data stored successfully for category:', category);
     } catch (storageError) {
       console.error('Error storing data:', storageError);
