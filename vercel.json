@@ -3,8 +3,8 @@
     "framework": "vue",
     "functions": {
         "api/postSocial.js": {
-        "memory": 3008,
-        "maxDuration": 60
+        "memory": 1024,
+        "maxDuration": 10
         }
     },
     "routes": [
