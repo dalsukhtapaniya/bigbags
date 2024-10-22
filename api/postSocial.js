@@ -1,21 +1,41 @@
-const runSocialPoster = require('../src/scripts/socialPoster.mjs');
-
-const categories = ['solana-meme-coins', 'pump-fun', 'base-meme-coins'];
-let currentCategoryIndex = 0;
-
 module.exports = async function handler(req, res) {
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // Handle OPTIONS request (pre-flight)
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // Log request details for debugging
+  console.log('Request method:', req.method);
+  console.log('Request headers:', req.headers);
+
   if (req.method === 'POST') {
-    const category = categories[currentCategoryIndex];
     try {
-      await runSocialPoster(category);
-      currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
-      res.status(200).json({ message: `Posted successfully for ${category}` });
+      // For now, just return a success message
+      return res.status(200).json({ 
+        message: 'API endpoint reached successfully',
+        method: req.method,
+        time: new Date().toISOString()
+      });
     } catch (error) {
-      console.error(`Error posting for ${category}:`, error);
-      res.status(500).json({ error: `Failed to post for ${category}` });
+      console.error('Error:', error);
+      return res.status(500).json({ error: error.message });
     }
   } else {
+    console.log(`Method ${req.method} not allowed`);
     res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).json({ 
+      error: `Method ${req.method} Not Allowed`,
+      allowedMethods: ['POST']
+    });
   }
 };
