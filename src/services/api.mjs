@@ -21,22 +21,16 @@ export async function fetchTokens(category) {
       },
     });
 
-    try {
-      await axios.post(STORAGE_API_URL, 
-        {
-          category,
-          data: response.data
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
-      console.log('Data stored successfully for category:', category);
-    } catch (storageError) {
-      console.error('Error storing data:', storageError);
-      // Continue even if storage fails
+     // If data is fetched successfully, trigger social post
+     if (response.data && response.data.length > 0) {
+      try {
+        await axios.post('https://bigbags-api.vercel.app/api/postSocial', {
+          tokenData: response.data[0]  // Send the top performing token
+        });
+        console.log('Social post triggered for:', response.data[0].symbol);
+      } catch (postError) {
+        console.error('Error triggering social post:', postError);
+      }
     }
     return response.data;
   } catch (error) {
