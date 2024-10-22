@@ -21,12 +21,5 @@
         "src": "/(.*)",
         "dest": "/index.html"
       }
-    ],
-    "functions": {
-      "api/postSocial.js": {
-        "memory": 1024,
-        "maxDuration": 10
-      }
-    }
+    ]
   }
-  
