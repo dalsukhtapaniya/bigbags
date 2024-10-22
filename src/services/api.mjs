@@ -24,25 +24,21 @@ export async function fetchTokens(category) {
      // If data is fetched successfully, trigger social post
      if (response.data && response.data.length > 0) {
       try {
-          console.log('Triggering social post for:', response.data[0].symbol);
-          const postResponse = await axios.post(
-              'https://bigbags-api.vercel.app/api/postSocial',
-              {
-                  tokenData: response.data[0]
-              },
-              {
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
-              }
-          );
-          console.log('Social post response:', postResponse.data);
+        await axios.post(
+          'https://bigbags-api.vercel.app/api/postSocial',
+          {
+            tokenData: response.data[0]
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true
+          }
+        );
+        console.log('Social post triggered for:', response.data[0].symbol);
       } catch (postError) {
-          console.error('Error triggering social post:', {
-              message: postError.message,
-              response: postError.response?.data,
-              status: postError.response?.status
-          });
+        console.error('Error triggering social post:', postError);
       }
     }
     return response.data;
