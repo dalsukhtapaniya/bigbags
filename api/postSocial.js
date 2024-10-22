@@ -1,9 +1,9 @@
-import runSocialPoster from '../src/scripts/socialPoster.mjs';
+const runSocialPoster = require('../src/scripts/socialPoster.mjs');
 
 const categories = ['solana-meme-coins', 'pump-fun', 'base-meme-coins'];
 let currentCategoryIndex = 0;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'POST') {
     const category = categories[currentCategoryIndex];
     try {
@@ -18,4 +18,4 @@ export default async function handler(req, res) {
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
+};
