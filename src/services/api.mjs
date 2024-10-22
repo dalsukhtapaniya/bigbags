@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const API_BASE_URL = 'https://api.coingecko.com/api/v3';
 const API_KEY = process.env.COINGECKO_API_KEY;
+const STORAGE_API_URL = 'https://bigbags-api.vercel.app/api/storeData';
+
 
 export async function fetchTokens(category) {
   try {
@@ -19,10 +21,16 @@ export async function fetchTokens(category) {
       },
     });
 
-    await axios.post('https://bigbags-api.vercel.app/api/storeData', {
-      category: category,
-      data: response.data
-    });
+    try {
+      await axios.post(STORAGE_API_URL, {
+        category,
+        data: response.data
+      });
+      console.log('Data stored successfully for category:', category);
+    } catch (storageError) {
+      console.error('Error storing data:', storageError);
+      // Continue even if storage fails
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching tokens:', error);
