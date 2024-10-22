@@ -30,11 +30,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "cron": [
-    {
-      "path": "/api/preparePost",
-      "schedule": "0 */2 * * *"
-    }
   ]
 }
