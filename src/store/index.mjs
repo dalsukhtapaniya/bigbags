@@ -1,11 +1,7 @@
 import { createStore } from 'vuex';
 import { fetchTokens, fetchTokenAddress } from '../services/api.js';
-import socialPostModule from './modules/socialPost.mjs';
 
 export default createStore({
-  modules: {
-    socialPost: socialPostModule,
-  },
   state: {
     tokens: [],
     currentCategory: 'solana-meme-coins',
