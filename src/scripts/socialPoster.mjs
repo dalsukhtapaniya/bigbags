@@ -2,7 +2,7 @@ import { generateHTMLContent } from './imageTemplate.mjs';
 import { TwitterApi } from 'twitter-api-v2';
 import puppeteer from 'puppeteer-core';
 import chromium from 'chrome-aws-lambda';
-import { fetchTokens } from '../services/api.mjs';
+import { fetchTokens } from '../services/api.js/index.js';
 
 const twitterClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,

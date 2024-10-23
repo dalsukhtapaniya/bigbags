@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { fetchTokens, fetchTokenAddress } from '../services/api.mjs';
+import { fetchTokens, fetchTokenAddress } from '../services/api.js';
 import socialPostModule from './modules/socialPost.mjs';
 
 export default createStore({
